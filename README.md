@@ -3,7 +3,9 @@ iOS Tutorial for ACM at SCU
 ---
 
 ##Setup
+
 ###What you need
+
 - A mac running the current macOS version
 - Xcode
 
