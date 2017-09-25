@@ -41,103 +41,98 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         if indexPath.row < todoData.count { // if the row represents valid data
             todoData[indexPath.row].done = !todoData[indexPath.row].done // change the 'done' flag
             
-            todoData = sortByDone(items: todoData)
-            //tableView.reloadData() 
-            
-            tableView.reloadRows(at: tableView.indexPathsForVisibleRows!, with: .fade)
-           //tableView.reloadRows(at: [indexPath], with: .automatic)
+            tableView.reloadRows(at: tableView.indexPathsForVisibleRows!, with: .fade) // update the view
         }
     }
     
+    // layout each cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        // create a variable representing a cell in your table
         let cell = tableView.dequeueReusableCell(withIdentifier: "toDoCell", for: indexPath)
         
-        if indexPath.row < todoData.count {
-            let item = todoData[indexPath.row]
-            cell.textLabel?.text = item.title
+        if indexPath.row < todoData.count { // if it's valid
+            let item = todoData[indexPath.row] // get the item in your array of tasks
+            cell.textLabel?.text = item.title // set the label on the cell to represent the given item
             
-            let accessory: UITableViewCellAccessoryType = item.done ? .checkmark : .none
-            cell.accessoryType = accessory
+            // if the task is complete, set the accessory to a check mark, else do not
+            if item.done {
+                 cell.accessoryType = .checkmark
+            } else {
+                cell.accessoryType = .none
+            }
         }
         
-        return cell
+        return cell // return the styled cell
     }
     
+    // we only want 1 section in this tableView, but there can be more
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
+    // the number of rows in our table is the number of items in our array of todos
     func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int
     {
         return todoData.count
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50.0
-    }
-    
+
+    // set if the table cells can be edittied, in this case if they can be removed or not
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
+    // handle deletion of rows
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            tableView.beginUpdates()
-            todoData.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .top)
-            tableView.endUpdates()
+        if editingStyle == .delete { // if the editing style is deletion
+            tableView.beginUpdates() // begin updating the tableView
+            todoData.remove(at: indexPath.row) // remove the item from our array
+            tableView.deleteRows(at: [indexPath], with: .top) // delete that row in the table
+            tableView.endUpdates() // stop updating the tableView
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
+    // Add an item to the todo list
+    // this IBAction should be linked directly to the + button in the storyboard
     @IBAction func addItem(_ sender: Any) {
-        let alert: UIAlertController = UIAlertController(title: "Add Item", message: "Add an item to your To-Do list", preferredStyle: .alert)
+        let alert: UIAlertController = UIAlertController(title: "Add Item", message: "Add an item to your To-Do list", preferredStyle: .alert) // creat a view for a pop-up
+        
+        // add a text field to read in the task
         alert.addTextField { (textField:UITextField) in
             textField.placeholder = "Item to add"
         }
         
+        // create an empty action to handle cancelation
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.destructive) { (action) in
-            
+            // Do nothing
         }
         
+        alert.addAction(cancelAction) // add the action to the alert
+        
+        // create a confirmation action and handle adding something to the table
         let confirmAction = UIAlertAction(title: "Add", style: UIAlertActionStyle.default) { (action) in
-            let itemField = alert.textFields![0] as UITextField
-            if itemField.text != "" {
-                let itemToAdd = toDoItem(title: itemField.text!, done: false)
-                self.tableView.beginUpdates()
-                self.todoData.append(itemToAdd)
+            let itemField = alert.textFields![0] as UITextField // get the textfield we added to the alert
+            if itemField.text != "" { // if the alert has text
+                let itemToAdd = toDoItem(title: itemField.text!, done: false) // create a new toDoItem with the user-specified task
+                self.tableView.beginUpdates() // start updating the tableView
+                self.todoData.append(itemToAdd) // add the item to the list
                 
-                self.tableView.insertRows(at: [IndexPath(row: self.todoData.count-1, section: 0)], with: .top)
-                self.tableView.endUpdates()
+                self.tableView.insertRows(at: [IndexPath(row: self.todoData.count-1, section: 0)], with: .top) // insert the new item in the table
+                self.tableView.endUpdates() // stop updating the tableView
             }
         }
         
-        alert.addAction(cancelAction)
-        alert.addAction(confirmAction)
+        alert.addAction(confirmAction) // add the action to the alert
         
-        self.present(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil) // present the alert to the user
     }
     
-    func sortByDone(items: [toDoItem]) -> [toDoItem] {
-        var sorted: [toDoItem] = []
-        var completed: [toDoItem] = []
-        
-        for item in items {
-            if item.done {
-                completed.append(item)
-            } else {
-                sorted.append(item)
-            }
-        }
-        
-        sorted.append(contentsOf: completed)
-        
-        return sorted;
+    
+    // this is used to handle memory issues, we shouldn't encounter any with this app
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
 }
 
