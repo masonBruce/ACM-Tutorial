@@ -1,11 +1,8 @@
 # ACM To-Do App for iOS
-iOS Tutorial for ACM at SCU
----
+## iOS Tutorial for ACM at SCU
 
-##Setup
-
-###What you need
-
+## Setup
+### What you need
 - A mac running the current macOS version
 - Xcode
 
