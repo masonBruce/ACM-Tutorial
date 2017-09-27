@@ -40,7 +40,6 @@
                             <constraint firstItem="oyR-Dd-gok" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="2sr-Ku-jDq"/>
                             <constraint firstItem="oyR-Dd-gok" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="JFY-sU-ZXQ"/>
                             <constraint firstItem="oyR-Dd-gok" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="M3l-ZR-YgU"/>
-                            <constraint firstItem="oyR-Dd-gok" firstAttribute="width" secondItem="6Tk-OE-BBY" secondAttribute="width" id="e55-jB-zn6"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

@@ -39,7 +39,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
         tableView.deselectRow(at: indexPath, animated: true) // deselect the row
         
         if indexPath.row < todoData.count { // if the row represents valid data
-            todoData[indexPath.row].done = !todoData[indexPath.row].done // change the 'done' flag
+            todoData[indexPath.row].done = !todoData[indexPath.row].done // toggle the 'done' flag
             
             tableView.reloadRows(at: tableView.indexPathsForVisibleRows!, with: .fade) // update the view
         }
@@ -72,8 +72,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     }
     
     // the number of rows in our table is the number of items in our array of todos
-    func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int
-    {
+    func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int {
         return todoData.count
     }
 
