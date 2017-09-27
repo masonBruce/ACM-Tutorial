@@ -6,7 +6,7 @@
 - A mac running the current macOS version
 - Xcode
 
-###Xcode
+### Xcode
 >Download Xcode from the Mac App Store
 >
 >When asked to "Install additional components" install them
@@ -295,7 +295,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 }
 ```
 #### numberOfSections
-- This returns the number of sections in the tableView. We only want 1 section but an example of an app that uses mutliple sections is the Settings App on iPhone and iPad
+- This returns the number of sections in the tableView. We only want 1 section but an example of an app that uses multiple sections is the Settings App on iPhone and iPad
 
 ```swift
 func numberOfSections(in tableView: UITableView) -> Int {
@@ -313,7 +313,7 @@ func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> In
 ```
 
 #### canEditRowAt
-- Since we want the user to be able to remove rows in the table, we want to set editting to true
+- Since we want the user to be able to remove rows in the table, we want to set editing to true
 
 ```swift
 func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
