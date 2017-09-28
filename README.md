@@ -1,5 +1,5 @@
-# ACM To-Do App for iOS
-## iOS Tutorial for ACM at SCU
+# ACM iOS and Swift App Development Workshop
+How to build your own To-Do App!
 
 ## Setup
 ### What you need
@@ -8,31 +8,27 @@
 
 ### Xcode
 >Download Xcode from the Mac App Store
->
->When asked to "Install additional components" install them
+>When asked to "Install additional components" ... install them
 
 
-# Tutorial
--
+## Tutorial
 ### Create a new project
 > Click “Create a new Xcode project” in the “Welcome to Xcode” window.
->
-> - iOS
-> - Single View App
-> - "Next"
-> - Under "Product Name" name your app
-> - Make sure "Language" is set to Swift
-> - Choose a location to save your project and click "Create"
+> 1. iOS
+> 2. Single View App
+> 3. "Next"
+> 4. Under "Product Name" name your app
+> 5. Make sure "Language" is set to Swift
+> 6. Choose a location to save your project and click "Create"
 
-## Project setup
-#### Storyboard
+### Storyboard
 -	First navigate to `Main.storyboard`
 -	Click on the bar above the `UIViewController` (The white rectangle) to select it
 - 	Click on `Editor`>`Embed In` > `Navigation Controller`
 -  Search for `Table View` in the menu in the bottom-left corner of Xcode
 -  Drag it into the ViewController and resize it to fit
 -  `control`+ Click on the top of the ViewController
-	-  Select `Top Space to Safe Area`, `Center Horizontally in Safe Area`, and `Equal Widths` 
+	-  Select `Top Space to Safe Area`, `Center Horizontally in Safe Area`, and `Equal Widths`
 -  `control`+ Click on the TableView
 	-  Select `Height`
 - With the TableView still selected, look at the menu on the right
@@ -44,7 +40,7 @@
 		- 	Under `System Item` in the right-menu, choose `Add`
 - Set a title for your ViewController by double-clicking on the navigation bar then setting a title in the upper-right corner of Xcode
 
-#### Code!
+### Code!
 - Click the button with the intersecting circles in the upper-right corner of Xcode
 - `control` + drag from the TableView to a blank line under `class ViewController`
 - Ensure `Connection` is set to `Outlet` and the type is `UITableView`
@@ -57,7 +53,7 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -76,12 +72,12 @@ class ViewController: UIViewController {
 - Set the connection type to `Action`
 	- Name it `addItem`
 	- This creates a function that is called when the `+` button is clicked
-	
+
 ```swift
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -105,7 +101,7 @@ class ViewController: UIViewController {
 class ViewController: UIViewController,  UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -134,14 +130,14 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     }
 
     @IBOutlet weak var tableView: UITableView!
-    
+
     /*
     ...
     */
 }
 ```
 - We will use an array to store each of the items in our list
- 
+
 ```swift
 class ViewController: UIViewController,  UITableViewDataSource, UITableViewDelegate {
 
@@ -152,7 +148,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
 
     @IBOutlet weak var tableView: UITableView!
     var todoData: [toDoItem] = []
-    
+
     /*
     ...
     */
@@ -182,19 +178,19 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
     // tableView functions
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     }
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
     }
-    
+
     func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int {
     }
-    
+
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
     }
-    
+
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     }
 }
@@ -206,7 +202,7 @@ class ViewController: UIViewController,  UITableViewDataSource, UITableViewDeleg
 // Do all your layout and setup in viewDidLoad()
 override func viewDidLoad() {
     super.viewDidLoad() // handle all the setup for UIViewController
-    
+
     // link the tableView to this class so that we can populate and control it
     tableView.delegate = self
     tableView.dataSource = self
@@ -223,19 +219,19 @@ override func viewDidLoad() {
 ```swift
 @IBAction func addItem(_ sender: Any) {
     let alert: UIAlertController = UIAlertController(title: "Add Item", message: "Add an item to your To-Do list", preferredStyle: .alert) // creat a view for a pop-up
-    
+
     // add a text field to read in the task
     alert.addTextField { (textField:UITextField) in
         textField.placeholder = "Item to add"
     }
-    
+
     // create an empty action to handle cancelation
     let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.destructive) { (action) in
         // Do nothing
     }
-    
+
     alert.addAction(cancelAction) // add the action to the alert
-    
+
     // create a confirmation action and handle adding something to the table
     let confirmAction = UIAlertAction(title: "Add", style: UIAlertActionStyle.default) { (action) in
         let itemField = alert.textFields![0] as UITextField // get the textfield we added to the alert
@@ -243,14 +239,14 @@ override func viewDidLoad() {
             let itemToAdd = toDoItem(title: itemField.text!, done: false) // create a new toDoItem with the user-specified task
             self.tableView.beginUpdates() // start updating the tableView
             self.todoData.append(itemToAdd) // add the item to the list
-            
+
             self.tableView.insertRows(at: [IndexPath(row: self.todoData.count-1, section: 0)], with: .top) // insert the new item in the table
             self.tableView.endUpdates() // stop updating the tableView
         }
     }
-    
+
     alert.addAction(confirmAction) // add the action to the alert
-    
+
     self.present(alert, animated: true, completion: nil) // present the alert to the user
 }
 ```
@@ -261,10 +257,10 @@ override func viewDidLoad() {
 ```swift
 func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true) // deselect the row
-    
+
     if indexPath.row < todoData.count { // if the row represents valid data
         todoData[indexPath.row].done = !todoData[indexPath.row].done // toggle the 'done' flag
-        
+
         tableView.reloadRows(at: tableView.indexPathsForVisibleRows!, with: .fade) // update the view
     }
 }
@@ -278,11 +274,11 @@ func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     // create a variable representing a cell in your table
     let cell = tableView.dequeueReusableCell(withIdentifier: "toDoCell", for: indexPath)
-    
+
     if indexPath.row < todoData.count { // if it's valid
         let item = todoData[indexPath.row] // get the item in your array of tasks
         cell.textLabel?.text = item.title // set the label on the cell to represent the given item
-        
+
         // if the task is complete, set the accessory to a check mark, else do not
         if item.done {
             cell.accessoryType = .checkmark
@@ -290,7 +286,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
             cell.accessoryType = .none
         }
     }
-    
+
     return cell // return the styled cell
 }
 ```
